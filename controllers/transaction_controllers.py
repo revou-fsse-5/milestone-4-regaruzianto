@@ -180,6 +180,7 @@ def transfer():
             from_account_id = data.get('from_account_id')
             to_account_id = data.get('to_account_id')
             amount = data.get('amount')
+            description = data.get('description')
             type = 'transfer'
             amount_int = int(amount)
 
@@ -198,7 +199,7 @@ def transfer():
             if account.balance < amount_int:
                 return jsonify({'error':'Insufficient Balance'}),400
 
-            transaction = Transactions(from_account_id=from_account_id, to_account_id=to_account_id, amount=amount, type=type)
+            transaction = Transactions(from_account_id=from_account_id, to_account_id=to_account_id, amount=amount, type=type, description=description)
 
             account.balance -= amount_int
             account_to_transfer.balance += amount_int
