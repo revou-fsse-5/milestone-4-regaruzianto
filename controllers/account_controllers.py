@@ -10,6 +10,32 @@ accountBP = Blueprint('accountBP', __name__)
 @accountBP.route('/accounts', methods=['POST'])
 @jwt_required()
 def create_account():
+    """
+        create a new account
+        ---
+        tags:
+          - Accounts
+        summary: Create a new account
+        description: This endpoint allows you to create a new account by providing an account type.
+        parameters:
+          - in: body
+            name: body
+            required: true
+            schema:
+              type: object
+              properties:
+                account_type:
+                  type: string
+                  example: savings
+        responses:
+          201:
+            description: Account created successfully
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+    """
     data = request.get_json()
     user = get_jwt_identity()
     userid = user['id']
@@ -38,6 +64,7 @@ def create_account():
             return jsonify({'error': "Failed to create account"}), 500
 
 
+
 @accountBP.route('/accounts', methods=['GET'])
 @jwt_required()
 def get_accounts():
@@ -48,6 +75,8 @@ def get_accounts():
         accounts = session.query(Accounts).filter(Accounts.user_id == user_id).all()
 
         return jsonify([account.to_dict() for account in accounts]), 200
+
+
 
 @accountBP.route('/accounts/<int:account_id>', methods=['GET'])
 @jwt_required()
@@ -62,7 +91,9 @@ def get_account(account_id):
             return jsonify({'error': 'Account not found'}), 404
 
         return jsonify(account.to_dict()), 200
-    
+
+
+
 @accountBP.route('/accounts/<int:account_id>', methods=['PUT'])
 @jwt_required()
 def update_account(account_id):
@@ -90,6 +121,8 @@ def update_account(account_id):
             session.rollback()
             return jsonify({'error': 'Failed to update account'}), 500 
 
+
+
 @accountBP.route('/accounts/<int:account_id>', methods=['DELETE'])
 @jwt_required()
 def delete_account(account_id):
@@ -111,7 +144,8 @@ def delete_account(account_id):
             session.rollback()
             return jsonify({'error': 'Failed to delete account'}), 500
 
-            
+
+
 
 
 

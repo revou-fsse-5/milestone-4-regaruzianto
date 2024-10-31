@@ -16,7 +16,16 @@ class Transactions(Base):
     def __repr__(self):
         return f'<Transaction {self.transaction_id} {self.from_account_id} {self.to_account_id} {self.amount} {self.type} {self.description} >'
     
-    
+    def to_dict(self):
+        return {
+            'transaction_id': self.transaction_id,
+            'from_account_id': self.from_account_id,
+            'to_account_id': self.to_account_id,
+            'amount': self.amount,
+            'type': self.type,
+            'description': self.description,
+            'created_at': self.created_at
+        }
 
 
 

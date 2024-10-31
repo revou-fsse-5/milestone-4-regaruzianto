@@ -8,7 +8,7 @@ userBP = Blueprint('userBP', __name__)
 
 @userBP.route('/users', methods=['POST'])
 def create_user():
-    """
+  """
     Create a new user
     ---
     tags:
@@ -62,31 +62,31 @@ def create_user():
               example: Failed to create user
     """
 
-    data = request.get_json()
+  data = request.get_json()
 
-    if data is None:
-        return {'message': 'No input data provided'}, 400
+  if data is None:
+    return {'message': 'No input data provided'}, 400
 
-    if 'username' not in data or 'email' not in data or 'password' not in data:
-        return {'message': 'Missing required fields'}, 400
+  if 'username' not in data or 'email' not in data or 'password' not in data:
+    return {'message': 'Missing required fields'}, 400
 
-    with Session() as session:
-        try:
-            user = Users(username=data['username'], email=data['email'])
-            user.set_password(data['password'])
+  with Session() as session:
+    try:
+      user = Users(username=data['username'], email=data['email'])
+      user.set_password(data['password'])
 
-            session.add(user)
-            session.commit()
+      session.add(user)
+      session.commit()
 
-            return jsonify({'message': 'user created successfully'}),201
-        except Exception as e:
-            print(e)
-            session.rollback()
-            return jsonify({'error': "Failed to create user"}),500
+      return jsonify({'message': f'user {data["username"]} created successfully'}),201
+    except Exception as e:
+      print(e)
+      session.rollback()
+      return jsonify({'error': "Failed to create user"}),500
         
 @userBP.route('/users/login', methods={'POST'})
 def login_user():
-    """
+  """
     Login user
     ---
     tags:
@@ -140,41 +140,42 @@ def login_user():
     
     """
 
-    data= request.get_json()
+  data= request.get_json()
 
-    if data is None:
-        return jsonify({'error':'No data received'}),400
+  if data is None:
+    return jsonify({'error':'No data received'}),400
     
-    if 'email' not in data or 'password' not in data:
-        return jsonify({'error':'Missing required fields'}),400
+  if 'email' not in data or 'password' not in data:
+    return jsonify({'error':'Missing required fields'}),400
     
-    with Session() as session:
-        try:
-            user = session.query(Users).filter(Users.email == data['email']).first()
+  with Session() as session:
+    try:
+      user = session.query(Users).filter(Users.email == data['email']).first()
 
-            if user and user.check_password(data['password']):
+      if user and user.check_password(data['password']):
 
-                expires = datetime.timedelta(minutes=60)
+        expires = datetime.timedelta(minutes=60)
 
-                access_token = create_access_token(identity={
-                    'id': user.id,
-                    'username': user.username,
-                    'email': user.email 
-                }, expires_delta=expires)
+        access_token = create_access_token(identity={
+        'id': user.id,
+        'username': user.username,
+        'email': user.email 
+        }, expires_delta=expires)
 
-                return jsonify({
-                    'message':f'User logged in successfully',
-                    'access_token': access_token
-                }), 201
-            return jsonify({'error':'Invalid email or password'}),401
-        except Exception as e:
-            print(e)
-            return jsonify({'error':'Failed to login user'}),500
+        return jsonify({
+          'message':f'User logged in successfully',
+          'access_token': access_token
+        }), 201
+    
+      return jsonify({'error':'Invalid email or password'}),401
+    except Exception as e:
+      print(e)
+      return jsonify({'error':'Failed to login user'}),500
         
 @userBP.route('/users/me', methods=["GET"])
 @jwt_required()
 def get_user_profile():
-    """
+  """
     Get the current user's profile
     ---
     tags:
@@ -222,28 +223,32 @@ def get_user_profile():
               example: User not found
     """
 
-    with Session() as session:
-        user = get_jwt_identity()
-
-        user_id = user['id']
-
-        user_profile = session.query(Users).filter(Users.id == user_id).first()
-
-        if user_profile:
-            return jsonify({
-                'id': user_profile.id,
-                'username': user_profile.username,
-                'email': user_profile.email,
-                'created_at': user_profile.created_at,
-                'updated_at': user_profile.update_at
-            }), 200
-        return jsonify({'error': 'User not found'}), 404
+  with Session() as session:
+    try:
+      user = get_jwt_identity()
+  
+      user_id = user['id']
+  
+      user_profile = session.query(Users).filter(Users.id == user_id).first()
+  
+      if user_profile:
+        return jsonify({
+          'id': user_profile.id,
+          'username': user_profile.username,
+          'email': user_profile.email,
+          'created_at': user_profile.created_at,
+          'updated_at': user_profile.update_at
+        }), 200
+      return jsonify({'error': 'User not found'}), 404
+    except Exception as e:
+      print(e)
+      return jsonify({'error': 'Failed to retrieve user profile'}), 500
     
     
 @userBP.route('/users/me', methods=['PUT'])
 @jwt_required()
 def update_user():
-    """
+  """
     Update the current user's profile
     ---
     tags:
@@ -256,7 +261,7 @@ def update_user():
         required: true
         type: string
         description: Bearer token for JWT authentication.
-        
+
       - in: body
         name: body
         required: True
@@ -313,31 +318,32 @@ def update_user():
               example: Invalid input data
     """
 
-    data = request.get_json()
+  data = request.get_json()
 
-    with Session() as session:
-        user = get_jwt_identity()
+  with Session() as session:
+    try:
+      user = get_jwt_identity()
 
-        user_id = user['id']
+      user_id = user['id']
 
-        user_profile = session.query(Users).filter(Users.id == user_id).first()
+      user_profile = session.query(Users).filter(Users.id == user_id).first()
 
-        if not user_profile:
-            return jsonify({'error':'User not found'}),404
+      if not user_profile:
+        return jsonify({'error':'User not found'}),404
         
-        user_profile.username = data.get('username', user_profile.username)
-        user_profile.email = data.get('email', user_profile.email)
+      user_profile.username = data.get('username', user_profile.username)
+      user_profile.email = data.get('email', user_profile.email)
 
-        session.commit()
+      session.commit()
 
-        return jsonify({ 
-            'message':'User updated successfully',
-            'id': user_profile.id,
-            'username': user_profile.username,
-            'email': user_profile.email,
-            'created_at': user_profile.created_at,
-            'updated_at': user_profile.update_at
+      return jsonify({
+        'message':'User updated successfully',
+        'username': f'{data["username"]}', #prevent rollback if return user_profile.username
+        'email': f'{data["email"]}'
         }),200
+    except Exception as e:
+      print(e)
+      return jsonify({'error': 'Failed to update user profile'}), 500
 
 
 
