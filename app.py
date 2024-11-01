@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from models.users_model import Users
 from models.accounts_model import Accounts
 from models.transactions_model import Transactions
@@ -26,4 +26,4 @@ app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 @app.route('/')
 def hello_world():
-    return 'Hello World!'
+    return render_template('index.html')
