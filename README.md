@@ -1,1 +1,13 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/C6Hc9iZ4)
+# Bank Client API
+This is a simple API client for the Bank API.
+This purpose is to learn create a simple API client for the Bank API, and learn how to use JWT authentication and Swagger documentation. The api is available at 
+
+https://direct-tamma-revoustudents-9fca07bd.koyeb.app/
+
+Technology used: Python, Flask, SQLAlchemy, JWT, Swagger, Docker, Postman
+
+You can use the following documentation:
+# Documentations
+https://direct-tamma-revoustudents-9fca07bd.koyeb.app/apidocs
+
+
