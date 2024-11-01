@@ -4,7 +4,7 @@ This purpose is to learn create a simple API client for the Bank API, and learn 
 
 https://direct-tamma-revoustudents-9fca07bd.koyeb.app/
 
-Technology used: Python, Flask, SQLAlchemy, JWT, Swagger, Docker, Postman
+Technology used: Python, Flask, SQLAlchemy, JWT, Swagger, Docker, Postman, MySQL
 
 You can use the following documentation:
 # Documentations

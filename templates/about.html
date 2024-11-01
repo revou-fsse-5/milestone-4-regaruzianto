@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank API</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+ 
+    <main class="maincontainer">
+
+        <section class="sectionmid">
+            <header>
+                <span>Banking app API</span>
+                <div>
+                    <nav>
+                        <ul class="navlist">
+                            <li><a href="/" class="nav">Home</a></li>
+                            <li><a href="" class="nav">About</a></li>
+                            <li><a href="/apidocs" class="nav">Documentations</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </header>
+            <div class="container-about marginblock">
+                <h1 class="marginblock" >About</h1>
+                <p class="marginblock" style="text-align: justify;">The Banking Client API provides a set of RESTful endpoints to interact with banking services and manage client information. This API is designed to support essential banking operations, including account management, transactions, and client data updates. With secure and flexible access, it enables third-party applications to integrate with banking systems, facilitating seamless client and account interactions.</p>
+            
+                <h2 class="marginblock">Key Features</h2>
+                <ul class="listabout marginblock">
+                    <li class="marginblock"><strong>Users Management</strong>: Create, update, and delete users profiles, retrieve users informations.</li>
+                    <li class="marginblock"><strong>Account Management</strong>: View account details, check balances, and update account information.</li>
+                    <li class="marginblock"><strong>Transactions</strong>: Perform secure transfers, view transaction history, and initiate deposits and withdrawals.</li>
+                    <li class="marginblock"><strong>Security</strong>: Supports JWT-based authentication for secure access.</li>
+                </ul>
+            
+                <h2 class="marginblock">Available Main Endpoints</h2>        
+                <ul class="listabout marginblock">
+                    <li class="marginblock"><code>/users</code>: Manage users profiles, including creation, updates, and retrieval of client data.</li>
+                    <li class="marginblock"><code>/accounts</code>: Access account information, balance checks, and updates.</li>
+                    <li class="marginblock"><code>/transactions</code>: Perform and retrieve transactions for accounts.</li>
+                </ul>
+                <span class="marginblock">For Details Endpoints and methods please look Documentations </span>
+            
+                <h2 class="marginblock">Usage</h2>
+                <p class="marginblock">To start, register a new user and create an account. Each request should include proper authorization headers to ensure secure access to the resources.</p>
+            
+               
+            </div>
+
+        </section>
+
+    </main>
+    <footer>
+
+    </footer>
+
+
+
+
+
+
+</body>
+</html>
